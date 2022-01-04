@@ -1,0 +1,16 @@
+{
+  "name": "projekt-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "connectingToMongo.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.1.4",
+    "uuidv4": "^6.2.12"
+  }
+}
