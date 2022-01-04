@@ -3,7 +3,7 @@ const connectingToMongo = require("./connectingToMongo.js");
 const Recipe = require("./models/Recipe.js");
 const { uuid } = require('uuidv4');
 const app = express();
-const port = 3000;
+const port = 5000;
 const validate = require('./validation.js');
 app.use(express.json());
 
