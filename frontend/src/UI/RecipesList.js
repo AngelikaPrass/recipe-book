@@ -1,8 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import {getRecipeListAction } from "../ducks/recipes/actions";
+import {connect} from 'react-redux';
+import { getRecipes } from "../ducks/recipes/selectors";
+// import { getRecipeList } from "../ducks/recipes/operations";
+import {useEffect} from "react";
 
-const RecipesList = ({recipes, getRecipeListAction}, props) => {
+const RecipesList = ({recipes}) => {
+    // useEffect(()=>{getRecipeList();}, []);
+    useEffect(()=>{getRecipes(recipes)}, []);
     return(
         <div>
             {recipes.map(recipe => (<div> {recipe.name} </div>))}
@@ -11,8 +15,9 @@ const RecipesList = ({recipes, getRecipeListAction}, props) => {
 };
 
 const mapStateToProps = (state) => {
+    console.log(state)
     return {
-        recipes: state.recipes
+        recipes: state
     };
 }
 export default connect(mapStateToProps)(RecipesList);

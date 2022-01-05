@@ -1,11 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
 import RecipesList from "./UI/RecipesList";
+import RecipeForm from "./UI/RecipeForm";
+import { Provider } from 'react-redux'
+import store from './ducks/store'
 function App() {
   return (
-    <div className="App">
-      <RecipesList />
-    </div>
+      <Provider store={store}>
+          <div className="App">
+              <RecipesList />
+              <RecipeForm />
+          </div>
+      </Provider>
+
   );
 }
 

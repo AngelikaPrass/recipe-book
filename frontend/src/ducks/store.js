@@ -15,6 +15,6 @@
 // );
 // export default store;
 import { createStore } from 'redux';
-import { recipeReducer }from './recipes/reducers';
+import { recipeReducer } from './recipes/reducers';
 const store = createStore(recipeReducer, []);
 export default store;
