@@ -1,13 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {createRecipeAction} from "../ducks/recipes/actions";
+import { addNewRecipe } from "../ducks/recipes/operations";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
+import * as Yup from 'yup';
 
+const RecipeSchema = Yup.object().shape({
+    name: Yup.string()
+        .min(4, "name is too short")
+        .max(30, "name is too long")
+        .required('Required'),
+    tags: Yup.array().of(Yup.string()),
+    ingredients: Yup.array().of(Yup.string()),
+    recipe: Yup.string()
+        .min(50, "recipe is too short")
+        .required('Required'),
+    photo: Yup.string().url().nullable(),
+    isVegan: Yup.boolean(),
+    isVegetarian: Yup.boolean(),
+    createdOn: Yup.date().default(() => new Date()),
+})
 
-const RecipeForm = (props) => {
+const RecipeForm = ({ addNewRecipe }, props) => {
     const handleSubmit = (values) => {
-        createRecipeAction(values);
+        addNewRecipe(values);
+
     };
 
     return(
@@ -25,8 +42,10 @@ const RecipeForm = (props) => {
                 recipe: '',
                 photo: '',
                 isVegan: false,
-                isVegetarian: false
+                isVegetarian: false,
+                dateAdded: new Date()
             }}
+                    validationSchema={RecipeSchema}
                     onSubmit={(values) => {
                         handleSubmit(values)
                     }}
@@ -120,12 +139,11 @@ const RecipeForm = (props) => {
                     <Field name="recipe" as="textarea" rows="10" cols="30"/>
                     <label htmlFor="photo"> Photo: </label>
                     <Field name="photo" />
-                    <button type='button'>
-                        is VEGAN?
-                    </button>
-                    <button type='button'>
-                        is VEGETARIAN?
-                    </button>
+                    <label htmlFor="isVegan"> vegan: </label>
+                    <Field type="checkbox" name="toggleVegan" />
+
+                    <label htmlFor="isVegetarian"> vegetarian: </label>
+                    <Field type="checkbox" name="toggleVegetarian" />
 
                     <button type="submit">
                         Dodaj
@@ -138,13 +156,12 @@ const RecipeForm = (props) => {
     )
 };
 const mapStateToProps = (state) => {
-
     return {
         recipes: state.recipes
-    };
-}
+}};
+
 const mapDispatchToProps = {
-    createRecipeAction
+    addNewRecipe
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeForm);

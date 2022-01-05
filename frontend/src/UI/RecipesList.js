@@ -1,15 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { getRecipes } from "../ducks/recipes/selectors";
-// import { getRecipeList } from "../ducks/recipes/operations";
+import { getRecipeList } from "../ducks/recipes/operations";
 import {useEffect} from "react";
 
-const RecipesList = ({recipes}) => {
-    // useEffect(()=>{getRecipeList();}, []);
-    useEffect(()=>{getRecipes(recipes)}, []);
+const RecipesList = ( {recipes, getRecipeList }, props ) => {
+    useEffect(()=>{
+        getRecipeList()
+    }, []); //eslint-disable-line react-hooks/exhaustive-deps
     return(
         <div>
-            {recipes.map(recipe => (<div> {recipe.name} </div>))}
+            <h3> ddd</h3>
+            {recipes.map(recipe => {return (<div key={recipe.id}> <h4> {recipe.name} </h4> <img src={recipe.photo} /></div>)})}
         </div>
     )
 };
@@ -17,7 +19,12 @@ const RecipesList = ({recipes}) => {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        recipes: state
+        recipes: getRecipes(state)
     };
 }
-export default connect(mapStateToProps)(RecipesList);
+
+const mapDispatchToProps  = {
+    getRecipeList
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipesList);

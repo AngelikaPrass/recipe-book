@@ -11,4 +11,5 @@ mongoose.plugin((schema) => {
     };
 });
 
-module.exports = mongoose.connect(`mongodb://${auth.host}:${auth.port}/${auth.database}`).then(()=>(mongoose));
+module.exports = mongoose.connect(`mongodb://angelika-prass:abc@${auth.host}:${auth.port}/${auth.database}`).then(()=>(mongoose));
+// module.exports = mongoose.connect(`mongodb://${gacko.pl}:${27017}/${angelika-temp}`).then(()=>(mongoose));
