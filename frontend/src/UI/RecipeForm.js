@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addNewRecipe } from "../ducks/recipes/operations";
+import { useNavigate } from 'react-router-dom';
+import { addNewRecipe, editRecipe } from "../ducks/recipes/operations";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
-import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 
+const today = new Date();
 const RecipeSchema = Yup.object().shape({
     name: Yup.string()
         .min(4, "name is too short")
@@ -18,57 +19,75 @@ const RecipeSchema = Yup.object().shape({
     photo: Yup.string().url().nullable(),
     isVegan: Yup.boolean(),
     isVegetarian: Yup.boolean(),
-    createdOn: Yup.date().default(() => new Date()),
+    createdOn: Yup.date().default(() => new Date()).max(today).min('2015-01-01'),
 })
 
-const RecipeForm = ({ addNewRecipe }, props) => {
-    const handleSubmit = (values) => {
-        addNewRecipe(values);
+const RecipeForm = ({ addNewRecipe, targetRecipe }, props) => {
+    const navigate = useNavigate();
+    const {
+        id: targetRecipeId,
+        name = '',
+        tags= [],
+        ingredients = [],
+        recipe = '',
+        photo = '',
+        isVegan = false,
+        isVegetarian = false,
+        dateAdded = new Date()
+        } = targetRecipe || {};
 
+    const handleSubmit = (values) => {
+        console.log(values)
+        if(targetRecipe){
+            editRecipe(values, targetRecipeId);
+            navigate(`/recipes/${targetRecipeId}`);
+
+        }
+        else{
+            addNewRecipe(values).then(response => {
+                const newRecipeId = response.id;
+                navigate(`/recipes/${newRecipeId}`);
+            });
+        }
     };
 
     return(
         <div>
             <h3> Add a recipe: </h3>
             <Formik initialValues={{
-                id: uuidv4(),
-                name: '',
-                tags: [{
-                    tag: ''
-                }],
-                ingredients: [{
-                    ingredient: ''
-                }],
-                recipe: '',
-                photo: '',
-                isVegan: false,
-                isVegetarian: false,
-                dateAdded: new Date()
+                name,
+                tags,
+                ingredients,
+                recipe,
+                photo,
+                isVegan,
+                isVegetarian,
+                dateAdded
             }}
                     validationSchema={RecipeSchema}
                     onSubmit={(values) => {
                         handleSubmit(values)
                     }}
                     enableReinitialize={true}>
-                {({ values }) => (
+                {({ values}) => (
                 <Form>
                     <label htmlFor="name"> Name </label>
                     <Field id="name" name="name" placeholder="Spaghetti"/>
                     <FieldArray name="tags">
-                        {({insert, remove, push }) => (
+                        {({remove, push }) => (
                             <div>
                                 {values.tags.length > 0 &&
                                 values.tags.map((tag, index) => (
                                     <div className="row" key={index}>
                                     <div className="col">
-                                        <label htmlFor={`tags.${index}.tag`}> Tag </label>
+                                        <label htmlFor={`tags.${index}`}> Tag </label>
                                         <Field
-                                            name={`tags.${index}.tag`}
+                                            name={`tags.${index}`}
                                             placeholder="Lunch"
                                             type="text"
                                             />
                                         <ErrorMessage
-                                            name={`tags.${index}.tag`}
+                                            name={`tags.${index}`}
                                             component="div"
                                             className="field-error"
                                             />
@@ -87,7 +106,7 @@ const RecipeForm = ({ addNewRecipe }, props) => {
                                 <button
                                     type="button"
                                     className="secondary"
-                                    onClick={() => push({ tag: ''})}
+                                    onClick={() => push('')}
                                 >
                                     Add Tag
                                 </button>
@@ -96,20 +115,20 @@ const RecipeForm = ({ addNewRecipe }, props) => {
                     </FieldArray>
 
                     <FieldArray name="ingredients">
-                        {({insert, remove, push }) => (
+                        {({remove, push }) => (
                             <div>
                                 {values.ingredients.length > 0 &&
                                     values.ingredients.map((ingredient, index) => (
                                         <div className="row" key={index}>
                                             <div className="col">
-                                                <label htmlFor={`ingredients.${index}.ingredient`}> Ingredient </label>
+                                                <label htmlFor={`ingredients.${index}`}> Ingredient </label>
                                                 <Field
-                                                    name={`ingredients.${index}.ingredient`}
+                                                    name={`ingredients.${index}`}
                                                     placeholder="Zucchini"
                                                     type="text"
                                                 />
                                                 <ErrorMessage
-                                                    name={`ingredients.${index}.ingredient`}
+                                                    name={`ingredients.${index}`}
                                                     component="div"
                                                     className="field-error"
                                                 />
@@ -128,7 +147,7 @@ const RecipeForm = ({ addNewRecipe }, props) => {
                                 <button
                                     type="button"
                                     className="secondary"
-                                    onClick={() => push({ ingredient: ''})}
+                                    onClick={() => push( '')}
                                 >
                                     Add Ingredient
                                 </button>
