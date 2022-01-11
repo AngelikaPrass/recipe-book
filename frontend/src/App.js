@@ -9,32 +9,13 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import Navbar from "./UI/Navbar";
 
 function App() {
 
   return (
       <Provider store={store}>
-        <Router>
-            <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/recipes">Recipes</Link>
-                        </li>
-                        <li>
-                            <Link to="/form">Form</Link>
-                        </li>
-                    </ul>
-                </nav>
-
-            <Routes>
-                <Route path="/recipes" element={<RecipesList/>} />
-                <Route path="/form" element={<RecipeForm/>} />
-            </Routes>
-
-        </Router>
+        <Navbar />
       </Provider>
 
   );
