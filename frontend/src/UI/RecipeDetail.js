@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import {connect, useSelector, shallowEqual } from "react-redux";
 import {selectRecipe} from "../ducks/recipes/selectors";
 import {deleteRecipe, editRecipe } from "../ducks/recipes/operations";
-import {getRecipe} from "../ducks/recipes/operations";
 
  const RecipeDetail = ({ recipe, deleteRecipe, editRecipe }) => {
      let  { id } = useParams();
@@ -14,14 +13,15 @@ import {getRecipe} from "../ducks/recipes/operations";
      useEffect(() => {
          if(recipeFromState){
              setData(recipeFromState);
+             console.log(recipeFromState);
          }
 
      }, [recipeFromState])
 
-     // console.log(getRecipe);
      return(
          <div>
-             <h3> {data.name} </h3>
+             {data && <h3> {data.name} </h3>}
+
          </div>
      )
  }
@@ -34,10 +34,8 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-const mapDispatchToProps  = (dispatch, ownProps) => {
-    return {
-        recipe: () => dispatch(getRecipe(ownProps.id))
-    }
+const mapDispatchToProps  =  {
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetail);

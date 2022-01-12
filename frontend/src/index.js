@@ -1,31 +1,21 @@
-import { render } from "react-dom";
-import {
-    BrowserRouter,
-    Routes,
-    Route
-} from "react-router-dom";
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import App from "./App";
-import Home from "./UI/Home";
-import MealSelection from "./UI/MealSelection";
-import RecipesList from "./UI/RecipesList";
-import RecipeDetail from "./UI/RecipeDetail";
-import RecipeForm from "./UI/RecipeForm";
 import React from "react";
+import store from './ducks/store.js';
+import { BrowserRouter } from 'react-router-dom';
 
-const rootElement = document.getElementById("root");
-render(
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<App />}>
-                <Route index element={<Home />} />
-                <Route path="meals" element={<MealSelection />}>
-                </Route>
-                <Route path="recipes" element={<RecipesList />}>
-                    <Route path=":recipeId" element = {<RecipeDetail /*animate={true}*//>} />
-                </Route>
-                <Route path="form" element={<RecipeForm />} />
-            </Route>
-        </Routes>
-    </BrowserRouter>,
-    rootElement
+
+ReactDOM.render(
+
+    <React.StrictMode>
+        <BrowserRouter>
+            <Provider store={store}>
+                <App />
+            </Provider>
+        </BrowserRouter>
+    </React.StrictMode>
+
+    ,
+    document.getElementById('root')
 );

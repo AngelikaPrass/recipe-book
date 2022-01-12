@@ -44,14 +44,3 @@ export const deleteRecipe = (recipeId) => {
     }
 };
 
-export const getRecipe = (recipeId) => {
-    return async dispatch => {
-        const response = await axios.get(`http://localhost:5000/recipes/${recipeId}`);
-        if(response.status === 200){
-            dispatch(actions.getRecipeAction(recipeId));
-        }
-        else {
-            console.log("bad request");
-        }
-    }
-};
