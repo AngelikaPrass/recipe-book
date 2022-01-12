@@ -19,3 +19,8 @@ export const deleteRecipeAction = (recipe) => ({
     type: types.RECIPE_DELETE,
     payload: recipe
 });
+
+export const getRecipeAction = (recipe) => ({
+    type: types.RECIPE_GET,
+    payload: recipe
+});

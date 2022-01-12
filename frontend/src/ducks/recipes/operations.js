@@ -6,7 +6,8 @@ export const getRecipeList = () => {
         const response = await axios.get('http://localhost:5000/recipes');
         dispatch(actions.getRecipeListAction(response.data));
     }
-}
+};
+
 export const addNewRecipe = (recipe) => {
     return async dispatch => {
         const response = await axios.post('http://localhost:5000/recipes', recipe);
@@ -17,7 +18,8 @@ export const addNewRecipe = (recipe) => {
             console.log("bad request");
         }
     }
-}
+};
+
 export const editRecipe = (recipe, recipeId) => {
     return async dispatch => {
         const response = await axios.put(`http://localhost:5000/recipes/${recipeId}`, recipe);
@@ -28,10 +30,11 @@ export const editRecipe = (recipe, recipeId) => {
             console.log("bad request");
         }
     }
-}
+};
+
 export const deleteRecipe = (recipeId) => {
     return async dispatch => {
-        const response = await axios.delete(`http://localhost:5000/recipe${recipeId}`);
+        const response = await axios.delete(`http://localhost:5000/recipes/${recipeId}`);
         if(response.status === 200){
             dispatch(actions.deleteRecipeAction(recipeId));
         }
@@ -39,4 +42,16 @@ export const deleteRecipe = (recipeId) => {
             console.log("bad request");
         }
     }
-}
+};
+
+export const getRecipe = (recipeId) => {
+    return async dispatch => {
+        const response = await axios.get(`http://localhost:5000/recipes/${recipeId}`);
+        if(response.status === 200){
+            dispatch(actions.getRecipeAction(recipeId));
+        }
+        else {
+            console.log("bad request");
+        }
+    }
+};

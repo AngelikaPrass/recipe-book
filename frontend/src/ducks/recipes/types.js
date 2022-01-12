@@ -2,11 +2,14 @@ const RECIPES_LIST = 'RECIPES_LIST';
 const RECIPE_CREATE = 'RECIPE_CREATE';
 const RECIPE_EDIT = 'RECIPE_EDIT';
 const RECIPE_DELETE = 'RECIPE_DELETE';
+const RECIPE_GET = 'RECIPE_GET';
+
 const types = {
     RECIPES_LIST,
     RECIPE_CREATE,
     RECIPE_EDIT,
-    RECIPE_DELETE
+    RECIPE_DELETE,
+    RECIPE_GET
 
 }
 export default types;

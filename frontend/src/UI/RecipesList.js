@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
+import { Outlet } from 'react-router';
 import {connect} from 'react-redux';
 import { getRecipes } from "../ducks/recipes/selectors";
 import { getRecipeList, deleteRecipe } from "../ducks/recipes/operations";
 import {useEffect} from "react";
+import {Link} from "react-router-dom";
 
-const RecipesList = ( {recipes, getRecipeList }, props ) => {
+const RecipesList = ( {recipes, getRecipeList }) => {
     const [data, setData] = useState(recipes);
     const [filtering, setFiltering] = useState( () => () => true);
 
@@ -20,7 +22,7 @@ const RecipesList = ( {recipes, getRecipeList }, props ) => {
     const handleFiltering = (e) => {
         if(e.target.value !== ''){
             const key = e.target.value;
-            setFiltering(()=> recipe => recipe[key]);
+            setFiltering(() => recipe => recipe[key]);
         }
         else{
             setFiltering(() => () => true);
@@ -53,8 +55,8 @@ const RecipesList = ( {recipes, getRecipeList }, props ) => {
             {filteredRecipes.map(recipe => {
                 return (
                     <div key={recipe.id}>
-                        <h4> {recipe.name} </h4>
-                        <img src={recipe.photo}  alt={"picture of recipe"}/>
+                        <Link to={`/recipes/${recipe.id}`}> <h4> {recipe.name} </h4> </Link>
+                        <img src={recipe.photo}  alt={`${recipe.name}`}/>
                         <button onClick={() => {
                             deleteRecipe(recipe.id);
                         }}> x </button>
@@ -62,6 +64,7 @@ const RecipesList = ( {recipes, getRecipeList }, props ) => {
                     </div>
                 )}
             )}
+            <Outlet />
         </div>
     )
 };

@@ -9,7 +9,8 @@ const recipeSchema = new Schema({
     photo: String,
     isVegan: Boolean,
     isVegetarian: Boolean,
+    preparationTime: Number,
+    cookingTime: Number,
     createdOn: Date
 });
-
 module.exports = model("Recipe", recipeSchema, "recipes");

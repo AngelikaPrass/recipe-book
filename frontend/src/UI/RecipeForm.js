@@ -33,6 +33,8 @@ const RecipeForm = ({ addNewRecipe, targetRecipe }, props) => {
         photo = '',
         isVegan = false,
         isVegetarian = false,
+        preparationTime = '',
+        cookingTime = '',
         dateAdded = new Date()
         } = targetRecipe || {};
 
@@ -62,6 +64,8 @@ const RecipeForm = ({ addNewRecipe, targetRecipe }, props) => {
                 photo,
                 isVegan,
                 isVegetarian,
+                preparationTime,
+                cookingTime,
                 dateAdded
             }}
                     validationSchema={RecipeSchema}
@@ -163,6 +167,12 @@ const RecipeForm = ({ addNewRecipe, targetRecipe }, props) => {
 
                     <label htmlFor="isVegetarian"> vegetarian: </label>
                     <Field type="checkbox" name="toggleVegetarian" />
+
+                    <label htmlFor="preparationTime"> Preparation time: </label>
+                    <Field name="preparation" placeholder="Spaghetti"/>
+
+                    <label htmlFor="cookingTime"> Cooking time: </label>
+                    <Field name="cooking" placeholder="Spaghetti"/>
 
                     <button type="submit">
                         Dodaj
