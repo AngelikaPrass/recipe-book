@@ -1,11 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {connect, shallowEqual, useSelector} from 'react-redux';
+import {useNavigate, useParams} from 'react-router-dom';
 import { addNewRecipe, editRecipe } from "../ducks/recipes/operations";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import {selectRecipe} from "../ducks/recipes/selectors";
 
-const today = new Date();
+// const today = new Date();
 const RecipeSchema = Yup.object().shape({
     name: Yup.string()
         .min(4, "name is too short")
@@ -19,11 +20,25 @@ const RecipeSchema = Yup.object().shape({
     photo: Yup.string().url().nullable(),
     isVegan: Yup.boolean(),
     isVegetarian: Yup.boolean(),
-    createdOn: Yup.date().default(() => new Date()).max(today).min('2015-01-01'),
+    preparationTime: Yup.string(),
+    cookingTime: Yup.string(),
+    // createdOn: Yup.date().default(() => new Date()).max(today).min('2015-01-01'),
 })
 
-const RecipeForm = ({ addNewRecipe, targetRecipe }, props) => {
+const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
+    let { id } = useParams();
+    const recipeFromState = useSelector(state => selectRecipe(state, id), shallowEqual);
+
     const navigate = useNavigate();
+    const [targetRecipe, setTargetRecipe] = useState(null)
+    useEffect(() => {
+        if(recipeFromState){
+            setTargetRecipe(recipeFromState);
+            console.log(recipeFromState);
+        }
+
+    }, [recipeFromState])
+
     const {
         id: targetRecipeId,
         name = '',
@@ -41,13 +56,14 @@ const RecipeForm = ({ addNewRecipe, targetRecipe }, props) => {
     const handleSubmit = (values) => {
         console.log(values)
         if(targetRecipe){
-            editRecipe(values, targetRecipeId);
-            navigate(`/recipes/${targetRecipeId}`);
-
+            editRecipe(values, targetRecipeId).then(() => {
+                navigate(`/recipes/${targetRecipeId}`);
+            });
         }
+
         else{
             addNewRecipe(values).then(response => {
-                const newRecipeId = response.id;
+                const newRecipeId = response.data.id;
                 navigate(`/recipes/${newRecipeId}`);
             });
         }
@@ -73,8 +89,9 @@ const RecipeForm = ({ addNewRecipe, targetRecipe }, props) => {
                         handleSubmit(values)
                     }}
                     enableReinitialize={true}>
-                {({ values}) => (
+                {({ values, errors}) => (
                 <Form>
+                    {JSON.stringify(errors)}
                     <label htmlFor="name"> Name </label>
                     <Field id="name" name="name" placeholder="Spaghetti"/>
                     <FieldArray name="tags">
@@ -190,7 +207,7 @@ const mapStateToProps = (state) => {
 }};
 
 const mapDispatchToProps = {
-    addNewRecipe
+    addNewRecipe, editRecipe
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeForm);

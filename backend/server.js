@@ -5,7 +5,6 @@ const { uuid } = require('uuidv4');
 const cors = require('cors');
 const app = express();
 const port = 5000;
-const validate = require('./validation.js');
 app.use(express.json());
 app.use(cors());
 // app.use(function(req, res, next) {
@@ -38,7 +37,6 @@ app.get('/recipes/:id', function (req, res){
 
 // adding recipe
 app.post('/recipes', function (req, res){
-    if (validate(req.body)) {
         Recipe.create({
             "_id": uuid(),
             "name": req.body.name,
@@ -54,25 +52,17 @@ app.post('/recipes', function (req, res){
             console.error(error)
             res.status(500).end("internal server error");
         });
-    }
-    else res.status(400).end("invalid data input")
 });
 
 //modifying a recipe
 app.put('/recipes/:id', function(req, res){
     const id = req.params.id;
-    if(validate(req.body)){
         Recipe.findByIdAndUpdate(id, req.body).then(recipe => {
             res.send(recipe)
         }).catch(error => {
             console.error(error);
             res.status(500).end("internal server error");
         });
-    }
-    else {
-        console.error(error);
-        res.status(400).end("invalid data input");
-    }
 
 });
 

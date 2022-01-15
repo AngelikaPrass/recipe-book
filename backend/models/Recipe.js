@@ -1,16 +1,45 @@
 const {Schema, model} = require("mongoose");
 
 const recipeSchema = new Schema({
-    _id: String,
-    name: String,
-    tags: [String],
-    ingredients: [String],
-    recipe: String,
-    photo: String,
-    isVegan: Boolean,
-    isVegetarian: Boolean,
-    preparationTime: Number,
-    cookingTime: Number,
-    createdOn: Date
+    _id: {
+        type: String,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    tags: {
+        type: [String],
+        required: true,
+    },
+    ingredients: {
+        type: [String],
+        required: true,
+    },
+    recipe: {
+        type: String,
+        required: true,
+    },
+    photo: {
+        type: String,
+        required: true,
+    },
+    isVegan: {
+        type: Boolean,
+        required: true,
+    },
+    isVegetarian: {
+        type: Boolean,
+        required: true,
+    },
+    preparationTime: {
+        type: Number,
+    },
+    cookingTime: {
+        type: Number,
+    },
+    createdOn: {
+        type: Date
+    }
 });
 module.exports = model("Recipe", recipeSchema, "recipes");

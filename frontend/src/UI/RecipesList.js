@@ -6,7 +6,7 @@ import { getRecipeList, deleteRecipe } from "../ducks/recipes/operations";
 import {useEffect} from "react";
 import {Link} from "react-router-dom";
 
-const RecipesList = ( {recipes, getRecipeList }) => {
+const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
     const [data, setData] = useState(recipes);
     const [filtering, setFiltering] = useState( () => () => true);
 
@@ -27,6 +27,11 @@ const RecipesList = ( {recipes, getRecipeList }) => {
         else{
             setFiltering(() => () => true);
         }
+    }
+
+    const handleDelete = (id) => {
+        deleteRecipe(id);
+        alert("deleted recipe");
     }
     return(
         <div>
@@ -57,9 +62,7 @@ const RecipesList = ( {recipes, getRecipeList }) => {
                     <div key={recipe.id}>
                         <Link to={`/recipes/${recipe.id}`}> <h4> {recipe.name} </h4> </Link>
                         <img src={recipe.photo}  alt={`${recipe.name}`}/>
-                        <button onClick={() => {
-                            deleteRecipe(recipe.id);
-                        }}> x </button>
+                        <button onClick={ () => handleDelete(recipe.id)}> x </button>
                         <hr />
                     </div>
                 )}
@@ -77,7 +80,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps  = {
-    getRecipeList
+    getRecipeList, deleteRecipe
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipesList);

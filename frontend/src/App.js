@@ -9,6 +9,7 @@ import Home from "./UI/Home";
 import RecipesList from "./UI/RecipesList";
 import RecipeForm from "./UI/RecipeForm";
 import RecipeDetail from "./UI/RecipeDetail";
+import MealSelection from "./UI/MealSelection";
 
 function App({recipes, getRecipeList}) {
     useEffect(() => { (async () => {
@@ -21,9 +22,10 @@ function App({recipes, getRecipeList}) {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="recipes/" element={ <RecipesList /> }> </Route>
+                <Route path="meals/" element={ <MealSelection /> }> </Route>
                 <Route path="recipes/:id" element={ <RecipeDetail/>} > </Route>
-                <Route path="form/create" element={ <RecipeForm mode="create"/> }> </Route>
-                <Route path="form/edit/:id" element={ <RecipeForm mode="edit"/> }> </Route>
+                <Route path="form" element={ <RecipeForm /> }> </Route>
+                <Route path="form/:id" element={ <RecipeForm /> }> </Route>
             </Routes>
         </div>
     );

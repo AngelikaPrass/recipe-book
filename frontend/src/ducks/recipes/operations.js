@@ -5,6 +5,7 @@ export const getRecipeList = () => {
     return async dispatch => {
         const response = await axios.get('http://localhost:5000/recipes');
         dispatch(actions.getRecipeListAction(response.data));
+        return response;
     }
 };
 
@@ -17,6 +18,7 @@ export const addNewRecipe = (recipe) => {
         else {
             console.log("bad request");
         }
+        return response;
     }
 };
 
@@ -29,6 +31,7 @@ export const editRecipe = (recipe, recipeId) => {
         else {
             console.log("bad request");
         }
+        return response;
     }
 };
 
@@ -41,6 +44,7 @@ export const deleteRecipe = (recipeId) => {
         else {
             console.log("bad request");
         }
+        return response;
     }
 };
 

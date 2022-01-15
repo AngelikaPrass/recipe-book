@@ -20,7 +20,4 @@ export const deleteRecipeAction = (recipe) => ({
     payload: recipe
 });
 
-export const getRecipeAction = (recipe) => ({
-    type: types.RECIPE_GET,
-    payload: recipe
-});
+
