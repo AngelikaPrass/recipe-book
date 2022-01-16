@@ -23,5 +23,5 @@ async function addToDb(fileToAdd, collectionToAdd) {
   });
 }
 
-// addToDb(file1, recipeCollection);
-// addToDb(file2, cuisineCollection);
+addToDb(file2, cuisineCollection);
+addToDb(file1, recipeCollection);
