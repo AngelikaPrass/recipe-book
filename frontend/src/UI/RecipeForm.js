@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {connect, shallowEqual, useSelector} from 'react-redux';
 import {useNavigate, useParams} from 'react-router-dom';
-import { addNewRecipe, editRecipe } from "../ducks/recipes/operations";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from 'formik';
+import {addNewRecipe, editRecipe} from "../ducks/recipes/operations";
+import {ErrorMessage, Field, FieldArray, Form, Formik} from 'formik';
 import * as Yup from 'yup';
 import {selectRecipe} from "../ducks/recipes/selectors";
 
-// const today = new Date();
 const RecipeSchema = Yup.object().shape({
     name: Yup.string()
         .min(4, "name is too short")
@@ -17,30 +16,30 @@ const RecipeSchema = Yup.object().shape({
     recipe: Yup.string()
         .min(50, "recipe is too short")
         .required('Required'),
-    photo: Yup.string().url().nullable(),
+    photo: Yup.string().url(),
     isVegan: Yup.boolean(),
     isVegetarian: Yup.boolean(),
     preparationTime: Yup.string(),
     cookingTime: Yup.string(),
-    // createdOn: Yup.date().default(() => new Date()).max(today).min('2015-01-01'),
 })
 
 const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
+
     let { id } = useParams();
+
     const recipeFromState = useSelector(state => selectRecipe(state, id), shallowEqual);
 
     const navigate = useNavigate();
-    const [targetRecipe, setTargetRecipe] = useState(null)
+    // const [targetRecipe, setTargetRecipe] = useState(null)
+
     useEffect(() => {
         if(recipeFromState){
-            setTargetRecipe(recipeFromState);
+
             console.log(recipeFromState);
         }
-
-    }, [recipeFromState])
+    }, [])
 
     const {
-        id: targetRecipeId,
         name = '',
         tags= [],
         ingredients = [],
@@ -50,23 +49,21 @@ const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
         isVegetarian = false,
         preparationTime = '',
         cookingTime = '',
-        dateAdded = new Date()
-        } = targetRecipe || {};
+        } = recipeFromState || {};
 
     const handleSubmit = (values) => {
         console.log(values)
-        if(targetRecipe){
-            editRecipe(values, targetRecipeId).then(() => {
-                navigate(`/recipes/${targetRecipeId}`);
-            });
+
+        if(recipeFromState)
+        {
+            editRecipe(values, id);
         }
 
-        else{
-            addNewRecipe(values).then(response => {
-                const newRecipeId = response.data.id;
-                navigate(`/recipes/${newRecipeId}`);
-            });
+        else
+        {
+            addNewRecipe(values);
         }
+        navigate(-1);
     };
 
     return(
@@ -82,7 +79,6 @@ const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
                 isVegetarian,
                 preparationTime,
                 cookingTime,
-                dateAdded
             }}
                     validationSchema={RecipeSchema}
                     onSubmit={(values) => {
@@ -186,12 +182,11 @@ const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
                     <Field type="checkbox" name="toggleVegetarian" />
 
                     <label htmlFor="preparationTime"> Preparation time: </label>
-                    <Field name="preparation" placeholder="Spaghetti"/>
+                    <Field name="preparation" placeholder="15"/>
 
                     <label htmlFor="cookingTime"> Cooking time: </label>
-                    <Field name="cooking" placeholder="Spaghetti"/>
-
-                    <button type="submit">
+                    <Field name="cooking" placeholder="30"/>
+                    <button type="submit" >
                         Dodaj
                     </button>
                 </Form>

@@ -6,9 +6,9 @@ export const recipeReducer = (state=[], action) => {
         case types.RECIPE_CREATE:
             return [...state, action.payload];
         case types.RECIPE_DELETE:
-            return [...state.filter(x => x.id !== action.payload)];
+            return [...state.filter(x => x._id !== action.payload)];
         case types.RECIPE_EDIT:
-            return [...state.filter(x => {return x.id !== action.payload.id}), action.payload];
+            return [...state.filter(x => {return x._id !== action.payload._id}), action.payload];
             default:
             return state;
     }

@@ -5,10 +5,10 @@ import {selectRecipe} from "../ducks/recipes/selectors";
 import {deleteRecipe, editRecipe } from "../ducks/recipes/operations";
 import { useNavigate } from 'react-router-dom';
 
- const RecipeDetail = ({ recipe, deleteRecipe, editRecipe }) => {
+ const RecipeDetail = ({ recipe, deleteRecipe}) => {
      let  { id } = useParams();
      const navigate = useNavigate();
-     const [data, setData] = useState();
+     const [data, setData] = useState(recipe);
      const recipeFromState = useSelector(state => selectRecipe(state, id), shallowEqual);
      console.log(recipeFromState)
 

@@ -1,0 +1,81 @@
+[
+  {
+    "_id": "african",
+    "name": "African",
+    "description": "Discover diverse African recipes from Cape Malay curries and South African bobotie to family favourites like jollof rice.",
+    "ingredients": ["Cassava", "Yam"]
+  },
+
+  {
+    "_id": "american",
+    "name": "American",
+    "description": "Rustle up famous American recipes that have become legend in popular culture, from New York cheesecake to California salads and burgers, from Southern-style ribs and pulled pork to all-American apple pie.",
+    "ingredients": ["Maple syrup", "Molasses", "Peanut Butter", "Pastrami", "Pecan", "Cranberry"]
+  },
+  {
+    "_id": "british",
+    "name": "British",
+    "description": "Enjoy classic British dishes such as fish and chips as well as authentic regional specialities.",
+    "ingredients": ["Worcestershire sauce", "Wensleydale", "Leek", "Cockles", "Brussels sprouts", "Asparagus", "Cider"]
+  },
+  {
+    "_id": "chinese",
+    "name": "Chinese",
+    "description": "Quick, fresh, hot and endlessly interesting try our Chinese recipes and leave the takeaway behind. From 15-minute stir-fry recipes to noodle dishes, dumplings and mouth-watering roasts.",
+    "ingredients": ["bamboo shoots", "beansprouts", " Bok choi", "Chinese cabbage", "Hoisin sauce", "Nashi", "Noodles", "Pak choi", "Shiitake mushroom", "Soy sauce", "Water chestnut"]
+  },
+  {
+    "_id": "east_european",
+    "name": "East European",
+    "description": "Explore Eastern Europe through its different cuisines, from blinis to beef goulash to borscht.",
+    "ingredients": ["Caviar", "Red cabbage", "Potatoes", "Beetroot"]
+  },
+  {
+    "_id": "french",
+    "name": "French",
+    "description": "Show off your culinary skills with regional and traditional French treats such as coq au vin.",
+    "ingredients": ["Vacherin", "Saucission", "Dijon mustard", "Crème fraîche", "Herbes de provence", "Brie", "Artichoke"]
+  },
+  {
+    "_id": "greek",
+    "name": "Greek",
+    "description": "We love Greek food - from a simple Greek salad, to grilled Greek lamb skewers to a classic moussaka.",
+    "ingredients": ["Feta", "Halloumi", "Olive", "Ouzo", "Vine leaves", "Hummus"]
+  },
+  {
+    "_id": "italian",
+    "name": "Italian",
+    "description": "Everyone should know how to cook Italian recipes - classic Italian crowd-pleasers such as lasagne, bolognese ragu and a heavenly tiramisu. Find out how to make perfect pasta and how to cook it properly.",
+    "ingredients": ["Balsamic vinegar", "Gorgonzola", "Basil", "Oregano", "Mascarpone", "Penne", "Pecorino", "Fafalle", "Prosciutto", "Ricotta", "Parmesan", "Salami"]
+  },
+  {
+    "_id": "japanese",
+    "name": "Japanese",
+    "description": "Create your own traditional bento box or try homemade sushi with wasabi and Japanese rice.",
+    "ingredients": ["Wasabi", "Miso", "Aduki beans", "Salmon", "Daikon", "Japanese pumpkin", "Noodles"]
+  },
+  {
+    "_id": "mexican",
+    "name": "Mexican",
+    "description": "Mexican recipes are popular for a reason. Mexican food is so fresh and easy - try our recipes for hot quesadillas, nachos, burritos and soft tacos.",
+    "ingredients": ["Flour tortilla", "Tomato", "Lime", "Chipotle", "Pinto beans", "Bird's-eye chillies"]
+  },
+  {
+    "_id": "spanish",
+    "name": "Spanish",
+    "description": "Bring some sunshine to the table with a homemade tapas menu or holiday favourite, paella.",
+    "ingredients": ["chorizo", "Octopus", "Manchego", "Saffron", "Paprika", "Sardine", "Paprika"]
+  },
+  {
+    "_id": "indian",
+    "name": "Indian",
+    "description": "Learning how to cook Indian food is a treat - from easy vegetarian Indian recipes to rich, meaty curries; from flaky breads to hearty, warming lentils and fresh, tangy chutneys. Branch out from the curry house classics and try regional Indian recipes - Goan, Punjabi, Bombay-style and Keralan recipes, too.",
+    "ingredients": ["Lentils", "Okra", "Red lentils", "Curry leaves", "Garams masala", "Tamarind"]
+  },
+  {
+    "_id": "thai",
+    "name": "Thai and South-East Asian",
+    "description": "Recipes for classic Thai green curry and pad Thai, plus traditional dishes from Singapore and Vietnam.",
+    "ingredients": ["Pandan leaves", "Pomelo", "Rice noodles", "Lemongrass", "Breadfruit", "Blachan", "Galangal", "Dragon fruit"]
+  }
+]

@@ -1,18 +1,18 @@
 {
-  "name": "projekt-2",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "connectingToMongo.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
-  "author": "",
-  "license": "UNLICENSED",
+  "author": "Angelika Prass",
+  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.2",
-    "mongoose": "^6.1.4",
-    "react-router-dom": "^6.2.1",
-    "uuidv4": "^6.2.12"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "mongoose": "^6.0.10"
   }
 }

@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import React from "react";
 import Navbar from "./UI/Navbar";
 import { useEffect } from 'react';
@@ -14,7 +14,7 @@ import MealSelection from "./UI/MealSelection";
 function App({recipes, getRecipeList}) {
     useEffect(() => { (async () => {
         if(recipes.length === 0){await getRecipeList()}
-    })()}, [])
+    })()}, [getRecipeList, recipes.length])
 
     return (
         <div className="App">
