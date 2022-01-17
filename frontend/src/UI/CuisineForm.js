@@ -13,7 +13,8 @@ const CuisineSchema = Yup.object().shape({
     description: Yup.string()
         .min(50, "description is too short")
         .required("please enter the description"),
-    ingredients: Yup.array().of(Yup.string()).required("please provide key ingredients of the cuisine")
+    ingredients: Yup.array().of(Yup.string()).required("please provide key ingredients of the cuisine"),
+    photo: Yup.string().url().required('Please add a link to picture'),
 })
 
 const CuisineForm = () => {
@@ -46,6 +47,10 @@ const CuisineForm = () => {
                     <label htmlFor="description"> Description </label>
                     <Field id="description" name="description" placeholder="Enter description here..." />
                     <ErrorMessage name="description" />
+
+                    <label htmlFor="photo"> Photo: </label>
+                    <Field name="photo" placeholder="Paste a link to picture..."/>
+                    <ErrorMessage name="photo" />
 
                     <FieldArray name="ingredients">
                         {({remove, push }) => (

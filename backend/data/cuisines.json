@@ -3,79 +3,92 @@
     "_id": "african",
     "name": "African",
     "description": "Discover diverse African recipes from Cape Malay curries and South African bobotie to family favourites like jollof rice.",
-    "ingredients": ["Cassava", "Yam"]
+    "ingredients": ["Cassava", "Yam"],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/4/47/African_Dishes.jpg"
   },
 
   {
     "_id": "american",
     "name": "American",
     "description": "Rustle up famous American recipes that have become legend in popular culture, from New York cheesecake to California salads and burgers, from Southern-style ribs and pulled pork to all-American apple pie.",
-    "ingredients": ["Maple syrup", "Molasses", "Peanut Butter", "Pastrami", "Pecan", "Cranberry"]
+    "ingredients": ["Maple syrup", "Molasses", "Peanut Butter", "Pastrami", "Pecan", "Cranberry"],
+    "photo": "https://voices.shortpedia.com/wp-content/uploads/2021/10/american-cuisine-1200x900@1000worldrecipes.jpg"
   },
   {
     "_id": "british",
     "name": "British",
     "description": "Enjoy classic British dishes such as fish and chips as well as authentic regional specialities.",
-    "ingredients": ["Worcestershire sauce", "Wensleydale", "Leek", "Cockles", "Brussels sprouts", "Asparagus", "Cider"]
+    "ingredients": ["Worcestershire sauce", "Wensleydale", "Leek", "Cockles", "Brussels sprouts", "Asparagus", "Cider"],
+    "photo": "https://cdn.vox-cdn.com/thumbor/OK0cbD0CLNHWxBx3xt_p3Py-DGA=/1400x0/filters:no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/7928279/full_english_Pelliccis.jpg"
   },
   {
     "_id": "chinese",
     "name": "Chinese",
     "description": "Quick, fresh, hot and endlessly interesting try our Chinese recipes and leave the takeaway behind. From 15-minute stir-fry recipes to noodle dishes, dumplings and mouth-watering roasts.",
-    "ingredients": ["bamboo shoots", "beansprouts", " Bok choi", "Chinese cabbage", "Hoisin sauce", "Nashi", "Noodles", "Pak choi", "Shiitake mushroom", "Soy sauce", "Water chestnut"]
+    "ingredients": ["bamboo shoots", "beansprouts", " Bok choi", "Chinese cabbage", "Hoisin sauce", "Nashi", "Noodles", "Pak choi", "Shiitake mushroom", "Soy sauce", "Water chestnut"],
+    "photo": "https://voicesfromthekitchen.org/wp-content/uploads/2021/10/Chinese-Cuisine-1.jpg"
   },
   {
     "_id": "east_european",
     "name": "East European",
     "description": "Explore Eastern Europe through its different cuisines, from blinis to beef goulash to borscht.",
-    "ingredients": ["Caviar", "Red cabbage", "Potatoes", "Beetroot"]
+    "ingredients": ["Caviar", "Red cabbage", "Potatoes", "Beetroot"],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Borscht_served.jpg/1200px-Borscht_served.jpg"
   },
   {
     "_id": "french",
     "name": "French",
     "description": "Show off your culinary skills with regional and traditional French treats such as coq au vin.",
-    "ingredients": ["Vacherin", "Saucission", "Dijon mustard", "Crème fraîche", "Herbes de provence", "Brie", "Artichoke"]
+    "ingredients": ["Vacherin", "Saucission", "Dijon mustard", "Crème fraîche", "Herbes de provence", "Brie", "Artichoke"],
+    "photo": "https://miro.medium.com/max/1024/1*rk_cBF51_DwisRjT_cW4ow.jpeg"
   },
   {
     "_id": "greek",
     "name": "Greek",
     "description": "We love Greek food - from a simple Greek salad, to grilled Greek lamb skewers to a classic moussaka.",
-    "ingredients": ["Feta", "Halloumi", "Olive", "Ouzo", "Vine leaves", "Hummus"]
+    "ingredients": ["Feta", "Halloumi", "Olive", "Ouzo", "Vine leaves", "Hummus"],
+    "photo": "https://www.thetinybook.com/wp-content/uploads/2020/03/GREECE-GREEK-FOOD.jpg"
   },
   {
     "_id": "italian",
     "name": "Italian",
     "description": "Everyone should know how to cook Italian recipes - classic Italian crowd-pleasers such as lasagne, bolognese ragu and a heavenly tiramisu. Find out how to make perfect pasta and how to cook it properly.",
-    "ingredients": ["Balsamic vinegar", "Gorgonzola", "Basil", "Oregano", "Mascarpone", "Penne", "Pecorino", "Fafalle", "Prosciutto", "Ricotta", "Parmesan", "Salami"]
+    "ingredients": ["Balsamic vinegar", "Gorgonzola", "Basil", "Oregano", "Mascarpone", "Penne", "Pecorino", "Fafalle", "Prosciutto", "Ricotta", "Parmesan", "Salami"],
+    "photo": "https://images.squarespace-cdn.com/content/v1/5e484ab628c78d6f7e602d73/1599248222831-ZMHAFYJT9T3IXH3IVGKY/What-to-eat-in-Italy.png?format=1000w"
   },
   {
     "_id": "japanese",
     "name": "Japanese",
     "description": "Create your own traditional bento box or try homemade sushi with wasabi and Japanese rice.",
-    "ingredients": ["Wasabi", "Miso", "Aduki beans", "Salmon", "Daikon", "Japanese pumpkin", "Noodles"]
+    "ingredients": ["Wasabi", "Miso", "Aduki beans", "Salmon", "Daikon", "Japanese pumpkin", "Noodles"],
+    "photo": "https://www.ennri.com/images/slides/slide_01.png"
   },
   {
     "_id": "mexican",
     "name": "Mexican",
     "description": "Mexican recipes are popular for a reason. Mexican food is so fresh and easy - try our recipes for hot quesadillas, nachos, burritos and soft tacos.",
-    "ingredients": ["Flour tortilla", "Tomato", "Lime", "Chipotle", "Pinto beans", "Bird's-eye chillies"]
+    "ingredients": ["Flour tortilla", "Tomato", "Lime", "Chipotle", "Pinto beans", "Bird's-eye chillies"],
+    "photo": "https://cdn.cheapism.com/images/Budget_Friendly_Mexican_Dishes.2e16d0ba.fill-1440x605.jpg"
   },
   {
     "_id": "spanish",
     "name": "Spanish",
     "description": "Bring some sunshine to the table with a homemade tapas menu or holiday favourite, paella.",
-    "ingredients": ["chorizo", "Octopus", "Manchego", "Saffron", "Paprika", "Sardine", "Paprika"]
+    "ingredients": ["chorizo", "Octopus", "Manchego", "Saffron", "Paprika", "Sardine", "Paprika"],
+    "photo": "https://insanelygoodrecipes.com/wp-content/uploads/2020/12/Spanish-Seafood-Paella-1024x536.png"
   },
   {
     "_id": "indian",
     "name": "Indian",
     "description": "Learning how to cook Indian food is a treat - from easy vegetarian Indian recipes to rich, meaty curries; from flaky breads to hearty, warming lentils and fresh, tangy chutneys. Branch out from the curry house classics and try regional Indian recipes - Goan, Punjabi, Bombay-style and Keralan recipes, too.",
-    "ingredients": ["Lentils", "Okra", "Red lentils", "Curry leaves", "Garams masala", "Tamarind"]
+    "ingredients": ["Lentils", "Okra", "Red lentils", "Curry leaves", "Garams masala", "Tamarind"],
+    "photo": "https://www.blueosa.com/wp-content/uploads/2020/01/the-best-top-10-indian-dishes.jpg"
   },
   {
     "_id": "thai",
     "name": "Thai and South-East Asian",
     "description": "Recipes for classic Thai green curry and pad Thai, plus traditional dishes from Singapore and Vietnam.",
-    "ingredients": ["Pandan leaves", "Pomelo", "Rice noodles", "Lemongrass", "Breadfruit", "Blachan", "Galangal", "Dragon fruit"]
+    "ingredients": ["Pandan leaves", "Pomelo", "Rice noodles", "Lemongrass", "Breadfruit", "Blachan", "Galangal", "Dragon fruit"],
+    "photo": "https://www.englishclub.com/images/vocabulary/food/thai/thai-food.jpg"
   }
 ]

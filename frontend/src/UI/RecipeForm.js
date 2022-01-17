@@ -16,7 +16,7 @@ const RecipeSchema = Yup.object().shape({
     recipe: Yup.string()
         .min(50, "recipe is too short")
         .required('Please enter the recipe'),
-    photo: Yup.string().url(),
+    photo: Yup.string().url().required('Please add a link to picture'),
     isVegan: Yup.boolean(),
     isVegetarian: Yup.boolean(),
     preparationTime: Yup.string().required('Please select preparation time'),
@@ -34,7 +34,7 @@ const RecipeForm = ({ addNewRecipe, editRecipe }) => {
 
             console.log(recipeFromState);
         }
-    }, [])
+    }, [recipeFromState])
 
     const {
         name = '',
@@ -166,11 +166,12 @@ const RecipeForm = ({ addNewRecipe, editRecipe }) => {
                     </FieldArray>
 
                     <label htmlFor="recipe"> Recipe: </label>
-                    <Field name="recipe" as="textarea" rows="10" cols="30"/>
+                    <Field name="recipe" as="textarea" rows="10" cols="30" placeholder="Enter recipe here..."/>
                     <ErrorMessage name="recipe" />
 
                     <label htmlFor="photo"> Photo: </label>
-                    <Field name="photo" />
+                    <Field name="photo" placeholder="Paste a link to picture..."/>
+                    <ErrorMessage name="photo" />
 
                     <label htmlFor="isVegan"> vegan: </label>
                     <Field type="checkbox" name="toggleVegan" />

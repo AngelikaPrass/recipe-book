@@ -29,6 +29,7 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
             fetchData().then(recipes => setData(recipes));
         }
     }, [recipesFromState, getRecipeList]);
+
     useEffect(() => {
         setDisplayedData(data.filter(e => filtering(e) && filtering2(e)).sort(sorting))
     }, [filtering, filtering2, sorting, data]);
@@ -108,7 +109,6 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
 
     return(
         <div>
-            <h3> ddd</h3>
             <div>
                 <p> Filter </p>
                 <form>
@@ -162,6 +162,7 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
                     </div>
                 )}
             )}
+            <Link to={'/form'}> <button> Add new recipe </button></Link>
             <Outlet />
         </div>
     )

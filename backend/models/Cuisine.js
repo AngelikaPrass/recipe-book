@@ -15,6 +15,10 @@ const cuisineSchema = new Schema({
     ingredients: {
         type: [String],
         required: true,
+    },
+    photo: {
+        type: String,
+        required: true,
     }
 });
 
