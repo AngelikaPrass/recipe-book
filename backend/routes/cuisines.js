@@ -26,4 +26,18 @@ router.get('/:id', function(req,res){
     });
 });
 
+// add a new cuisine
+router.post('/', function (req,res){
+    const name = req.body.name;
+    Cuisines.create({
+        ...req.body,
+        "_id": name.toLowerCase().replace(' ', '_')
+    }).then(cuisine => {
+        res.send(cuisine)
+    }).catch(error => {
+        console.error(error)
+        res.status(500).end("internal server error");
+    });
+});
+
 module.exports = router;

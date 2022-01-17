@@ -25,8 +25,9 @@ router.get('/:id', function (req, res){
 
 // adding recipe
 router.post('/', function (req, res){
+  delete req.body._id;
   Recipe.create({
-    ...req.body,  "creationDate": new Date(),
+    ...req.body,  "createdOn": new Date()
   }).then(recipe => {
     res.send(recipe);
   }).catch(error => {

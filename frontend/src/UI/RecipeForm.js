@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {connect, shallowEqual, useSelector} from 'react-redux';
 import {useNavigate, useParams} from 'react-router-dom';
 import {addNewRecipe, editRecipe} from "../ducks/recipes/operations";
@@ -10,27 +10,24 @@ const RecipeSchema = Yup.object().shape({
     name: Yup.string()
         .min(4, "name is too short")
         .max(30, "name is too long")
-        .required('Required'),
-    tags: Yup.array().of(Yup.string()),
-    ingredients: Yup.array().of(Yup.string()),
+        .required('Please enter a recipe name'),
+    tags: Yup.array().of(Yup.string()).required('At least one tag is required').min(1),
+    ingredients: Yup.array().of(Yup.string()).required('Recipe must contain at least one ingredient').min(1),
     recipe: Yup.string()
         .min(50, "recipe is too short")
-        .required('Required'),
+        .required('Please enter the recipe'),
     photo: Yup.string().url(),
     isVegan: Yup.boolean(),
     isVegetarian: Yup.boolean(),
-    preparationTime: Yup.string(),
-    cookingTime: Yup.string(),
+    preparationTime: Yup.string().required('Please select preparation time'),
+    cookingTime: Yup.string().required('Please select cooking time'),
 })
 
-const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
+const RecipeForm = ({ addNewRecipe, editRecipe }) => {
 
     let { id } = useParams();
-
     const recipeFromState = useSelector(state => selectRecipe(state, id), shallowEqual);
-
     const navigate = useNavigate();
-    // const [targetRecipe, setTargetRecipe] = useState(null)
 
     useEffect(() => {
         if(recipeFromState){
@@ -53,14 +50,10 @@ const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
 
     const handleSubmit = (values) => {
         console.log(values)
-
-        if(recipeFromState)
-        {
+        if(recipeFromState) {
             editRecipe(values, id);
         }
-
-        else
-        {
+        else {
             addNewRecipe(values);
         }
         navigate(-1);
@@ -85,11 +78,11 @@ const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
                         handleSubmit(values)
                     }}
                     enableReinitialize={true}>
-                {({ values, errors}) => (
+                {({ values, errors, touched}) => (
                 <Form>
-                    {JSON.stringify(errors)}
                     <label htmlFor="name"> Name </label>
                     <Field id="name" name="name" placeholder="Spaghetti"/>
+                    <ErrorMessage name="name" />
                     <FieldArray name="tags">
                         {({remove, push }) => (
                             <div>
@@ -171,10 +164,14 @@ const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
                             </div>
                         )}
                     </FieldArray>
+
                     <label htmlFor="recipe"> Recipe: </label>
                     <Field name="recipe" as="textarea" rows="10" cols="30"/>
+                    <ErrorMessage name="recipe" />
+
                     <label htmlFor="photo"> Photo: </label>
                     <Field name="photo" />
+
                     <label htmlFor="isVegan"> vegan: </label>
                     <Field type="checkbox" name="toggleVegan" />
 
@@ -182,12 +179,31 @@ const RecipeForm = ({ addNewRecipe, editRecipe }, props) => {
                     <Field type="checkbox" name="toggleVegetarian" />
 
                     <label htmlFor="preparationTime"> Preparation time: </label>
-                    <Field name="preparation" placeholder="15"/>
+                    <Field as="select" name="preparationTime">
+                        <option value=""> </option>
+                        <option value="20"> 10 - 30 minutes</option>
+                        <option value="25"> less than 30 minutes </option>
+                        <option value="45"> 30 minutes - 1 hour </option>
+                        <option value="90"> 1 - 2 hours </option>
+                        <option value="125"> over 2 hours </option>
+                        <option value="500"> overnight </option>
+                    </Field>
+                    <ErrorMessage name="preparationTime" />
 
                     <label htmlFor="cookingTime"> Cooking time: </label>
-                    <Field name="cooking" placeholder="30"/>
+                    <Field as="select" name="cookingTime">
+                        <option value=""> </option>
+                        <option value="20"> 10 - 30 minutes</option>
+                        <option value="25"> less than 30 minutes </option>
+                        <option value="45"> 30 minutes - 1 hour </option>
+                        <option value="90"> 1 - 2 hours </option>
+                        <option value="125"> over 2 hours </option>
+                        <option value="500"> overnight </option>
+                    </Field>
+                    <ErrorMessage name="cookingTime" />
+
                     <button type="submit" >
-                        Dodaj
+                        Add
                     </button>
                 </Form>
                 )}

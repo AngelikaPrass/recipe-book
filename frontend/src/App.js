@@ -9,20 +9,22 @@ import Home from "./UI/Home";
 import RecipesList from "./UI/RecipesList";
 import RecipeForm from "./UI/RecipeForm";
 import RecipeDetail from "./UI/RecipeDetail";
-import MealSelection from "./UI/MealSelection";
-
+import CuisineSelection from "./UI/CuisineSelection";
+import CuisineForm from "./UI/CuisineForm";
 function App({recipes, getRecipeList}) {
-    useEffect(() => { (async () => {
-        if(recipes.length === 0){await getRecipeList()}
-    })()}, [getRecipeList, recipes.length])
+    useEffect(() => {
+        if (recipes.length === 0) getRecipeList();
+    }, [getRecipeList, recipes]);
+
 
     return (
         <div className="App">
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="recipes/" element={ <RecipesList /> }> </Route>
-                <Route path="meals/" element={ <MealSelection /> }> </Route>
+                <Route path="recipes" element={ <RecipesList /> }> </Route>
+                <Route path="cuisines" element={ <CuisineSelection /> }> </Route>
+                <Route path="cuisines/form" element={ <CuisineForm /> }> </Route>
                 <Route path="recipes/:id" element={ <RecipeDetail/>} > </Route>
                 <Route path="form" element={ <RecipeForm /> }> </Route>
                 <Route path="form/:id" element={ <RecipeForm /> }> </Route>

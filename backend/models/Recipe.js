@@ -1,8 +1,10 @@
 const { Schema, model } = require('mongoose');
+const {v4: uuidv4} = require("uuid")
 
 const recipeSchema = new Schema({
   _id: {
     type: String,
+    default: uuidv4,
   },
   name: {
     type: String,

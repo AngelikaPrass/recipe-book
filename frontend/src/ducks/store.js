@@ -3,23 +3,15 @@ import {createStore, applyMiddleware, combineReducers, compose} from 'redux';
 import logger from 'redux-logger';
 import { recipeReducer }from './recipes/reducers';
 import { createMiddleware } from 'redux-api-middleware';
-
+import {cuisineReducer} from "./cuisines/reducers";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const combinedReducers = combineReducers({
-    recipes: recipeReducer
+    recipes: recipeReducer,
+    cuisines: cuisineReducer
 });
 
 const store = createStore(combinedReducers,
     composeEnhancers(applyMiddleware(thunk, createMiddleware(), logger)),
 );
 export default store;
-
-// import { createStore } from 'redux';
-// import { recipeReducer } from './recipes/reducers';
-// import {combineReducers} from "redux";
-// const combinedReducers = combineReducers({
-//     recipes: recipeReducer
-// })
-// const store = createStore(combinedReducers);
-// export default store;

@@ -1,29 +1,27 @@
-import React, {useState} from 'react';
-import { Outlet } from 'react-router';
+import React, {useEffect, useState} from 'react';
+import {Outlet} from 'react-router';
 import {connect, shallowEqual, useSelector} from 'react-redux';
-import { getRecipes } from "../ducks/recipes/selectors";
-import { getRecipeList, deleteRecipe } from "../ducks/recipes/operations";
-import {useEffect} from "react";
+import {getRecipes} from "../ducks/recipes/selectors";
+import {deleteRecipe, getRecipeList} from "../ducks/recipes/operations";
 import {Link} from "react-router-dom";
 
 //todo:
 // add a dropdown filter option to filter by cuisines and occasions [tags]
-
+//
 
 const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
+    const [searchTerm, setSearchTerm] = useState("");
     const [data, setData] = useState(recipes);
-    const [sorting, setSorting] = useState(()=>()=>true);
+    const [sorting, setSorting] = useState(()=>()=>1);
     const [filtering, setFiltering] = useState( () => () => true);
-
+    const [filtering2, setFiltering2] = useState( () => () => true);
+    const [displayedData, setDisplayedData] = useState(recipes);
     const recipesFromState = useSelector(state => getRecipes(state), shallowEqual)
 
     useEffect(() => {
        async function fetchData(){
-           const recipes = await getRecipeList();
-           console.log(recipes);
-           return recipes;
+           return await getRecipeList();
        }
-       console.log(recipesFromState);
         if(recipesFromState.length !== 0){
             setData(recipesFromState);
         }
@@ -31,8 +29,9 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
             fetchData().then(recipes => setData(recipes));
         }
     }, [recipesFromState, getRecipeList]);
-
-    const displayedRecipes = data.filter(filtering).sort(sorting);
+    useEffect(() => {
+        setDisplayedData(data.filter(e => filtering(e) && filtering2(e)).sort(sorting))
+    }, [filtering, filtering2, sorting, data]);
 
     const handleFiltering = (e) => {
         if(e.target.value !== ''){
@@ -43,8 +42,6 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
             setFiltering(() => () => true);
         }
     }
-
-
 
     const handleSorting = e => {
         switch(e.target.value){
@@ -60,36 +57,37 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
                 break;
             case 'dateASC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe1.createdOn.localeCompare(recipe2.createdOn);
+                    return '' + recipe1.createdOn > recipe2.createdOn;
                 })
                 break;
             case 'dateDESC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe2.createdOn.localeCompare(recipe1.createdOn);
+                    return '' + recipe1.createdOn < recipe2.createdOn;
+
                 })
                 break;
             case 'prepTimeASC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe1.preparationTime.localeCompare(recipe2.preparationTime);
+                    return '' + recipe1.preparationTime > recipe2.preparationTime;
                 })
                 break;
             case 'prepTimeDESC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe2.preparationTime.localeCompare(recipe1.preparationTime);
+                    return '' + recipe1.preparationTime < recipe2.preparationTime;
                 })
                 break;
             case 'ingredientsASC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe1.ingredients.length.localeCompare(recipe2.ingredients.length);
+                    return '' + recipe1.ingredients.length > recipe2.ingredients.length;
                 })
                 break;
             case 'ingredientsDESC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe2.ingredients.length.localeCompare(recipe1.ingredients.length);
+                    return '' + recipe1.ingredients.length < recipe2.ingredients.length;
                 })
                 break;
             default:
-                setSorting(() => () => true)
+                setSorting(() => () => 1)
         }
     }
 
@@ -97,6 +95,17 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
         deleteRecipe(id);
         alert("deleted recipe");
     }
+
+    const searching = (searchTerm) => {
+        return (recipe) => {
+            return recipe.ingredients?.some(x => x.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+    };
+
+    useEffect(()=>{
+        setFiltering2(()=>searching(searchTerm))
+    }, [searchTerm])
+
     return(
         <div>
             <h3> ddd</h3>
@@ -135,13 +144,20 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
                 </select>
             </div>
 
+            <div className="search">
+                <input type="text" placeholder="Search for an ingredient..." onChange={e => {
+                    setSearchTerm(e.target.value)
 
-    {displayedRecipes.map(recipe => {
+                }}/>
+            </div>
+
+
+    {displayedData.map(recipe => {
                 return (
                     <div key={recipe._id}>
                         <Link to={`/recipes/${recipe._id}`}> <h4> {recipe.name} </h4> </Link>
                         <img src={recipe.photo}  alt={`${recipe.name}`}/>
-                        <button onClick={ () => handleDelete(recipe.id)}> x </button>
+                        <button onClick={ () => handleDelete(recipe._id)}> x </button>
                         <hr />
                     </div>
                 )}
