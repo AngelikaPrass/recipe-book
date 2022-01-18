@@ -16,15 +16,45 @@ import { useNavigate } from 'react-router-dom';
          alert("deleted recipe");
          navigate(`/recipes`);
      }
+
+     const displayTime = time => {
+         switch(time){
+             case 0:
+                 return "-";
+             case 10:
+                 return "less than 10 minutes";
+             case 20:
+             case 25:
+                 return "less than 30 minutes";
+             case 45:
+                 return "30 minutes - 1 hour";
+             case 90:
+                 return "1 - 2 hours";
+             case 500:
+                 return "overnight";
+             default:
+                 return ""
+         }
+     }
+
+     const displayDiet = recipe => {
+         if(recipe.isVegetarian && !recipe.isVegan){
+             return "vegetarian";
+         }
+         else if(recipe.isVegan){
+             return "vegan";
+         }
+     }
+
      return(
          <div>
              {recipe && <><h3> {recipe.name} </h3>
              <img src={recipe.photo}  alt={`${recipe.name}`}/>
                  <div> {recipe.tags} </div>
-                 <div> {recipe.preparationTime} </div>
-                 <div> {recipe.cookingTime} </div>
-                 {recipe.isVegan && <div> vegan </div>}
-                 {recipe.isVegetarian && <div> vegetarian </div>}
+                 <div> preparation time: {displayTime(recipe.preparationTime)} </div>
+                 <div> cookingTime: {displayTime(recipe.cookingTime)} </div>
+
+                 {<div> {displayDiet(recipe)} </div>}
                  <ul>
                      Ingredients:
                      {recipe.ingredients.map(ingredient => <li key={ingredient}> {ingredient} </li>)}

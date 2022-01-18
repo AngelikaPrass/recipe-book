@@ -20,7 +20,7 @@
     "photo": "https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/5-ingredient_33925_16x9.jpg",
     "isVegan": true,
     "isVegetarian": true,
-    "preparationTime": 20,
+    "preparationTime": 25,
     "cookingTime": 45,
     "createdOn": "2021-12-17",
     "cuisineId": "african"
@@ -85,7 +85,7 @@
     "photo": "https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/vegan_singapore_noodles_62023_16x9.jpg",
     "isVegan": false,
     "isVegetarian": true,
-    "preparationTime": 20,
+    "preparationTime": 25,
     "cookingTime": 10,
     "createdOn": "2021-12-15",
     "cuisineId": "chinese"

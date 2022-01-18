@@ -1,3 +1,5 @@
+import './styles/App.scss';
+import './styles/recipesList.scss';
 import React, {useEffect, useState} from 'react';
 import {Outlet} from 'react-router';
 import {connect, shallowEqual, useSelector} from 'react-redux';
@@ -15,6 +17,7 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
     const [sorting, setSorting] = useState(()=>()=>1);
     const [filtering, setFiltering] = useState( () => () => true);
     const [filtering2, setFiltering2] = useState( () => () => true);
+    const [filtering3, setFiltering3] = useState( () => () => true);
     const [displayedData, setDisplayedData] = useState(recipes);
     const recipesFromState = useSelector(state => getRecipes(state), shallowEqual)
 
@@ -31,8 +34,8 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
     }, [recipesFromState, getRecipeList]);
 
     useEffect(() => {
-        setDisplayedData(data.filter(e => filtering(e) && filtering2(e)).sort(sorting))
-    }, [filtering, filtering2, sorting, data]);
+        setDisplayedData(data.filter(e => filtering(e) && filtering2(e) && filtering3(e)).sort(sorting))
+    }, [filtering, filtering2, filtering3, sorting, data]);
 
     const handleFiltering = (e) => {
         if(e.target.value !== ''){
@@ -48,12 +51,12 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
         switch(e.target.value){
             case 'alphabetASC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe1.name.localeCompare(recipe2.name);
+                    return recipe1.name.localeCompare(recipe2.name);
                 })
                 break;
             case 'alphabetDESC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe2.name.localeCompare(recipe1.name);
+                    return recipe2.name.localeCompare(recipe1.name);
                 })
                 break;
             case 'dateASC':
@@ -67,24 +70,14 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
 
                 })
                 break;
-            case 'prepTimeASC':
-                setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe1.preparationTime > recipe2.preparationTime;
-                })
-                break;
-            case 'prepTimeDESC':
-                setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe1.preparationTime < recipe2.preparationTime;
-                })
-                break;
             case 'ingredientsASC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe1.ingredients.length > recipe2.ingredients.length;
+                    return recipe1.ingredients.length - recipe2.ingredients.length;
                 })
                 break;
             case 'ingredientsDESC':
                 setSorting(() => (recipe1, recipe2) => {
-                    return '' + recipe1.ingredients.length < recipe2.ingredients.length;
+                    return recipe2.ingredients.length - recipe1.ingredients.length;
                 })
                 break;
             default:
@@ -95,6 +88,17 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
     const handleDelete = (id) => {
         deleteRecipe(id);
         alert("deleted recipe");
+    }
+
+    const dropdownFilter = (e) => {
+        if(e.target.value !== ''){
+            setFiltering3(() => recipe => {
+                return recipe.preparationTime === Number(e.target.value);
+            });
+        }
+        else{
+            setFiltering3(() => () => true);
+        }
     }
 
     const searching = (searchTerm) => {
@@ -109,9 +113,8 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
 
     return(
         <div>
-            <div>
-                <p> Filter </p>
-                <form>
+            <div className="tools">
+                <form className="vegan">
                     <ul>
                         <li>
                             vegan:
@@ -128,27 +131,35 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
 
                     </ul>
                 </form>
-            </div>
-            <div>
-                <select name="sort" onChange={handleSorting} defaultValue={"none"}>
-                    <option value="none"> - </option>
-                    <option value="alphabetASC"> alphabetically ascending </option>
-                    <option value="alphabetDESC"> Alphabetically descending </option>
-                    <option value="dateASC"> By date ascending </option>
-                    <option value="dateDESC"> By date descending </option>
-                    <option value="prepTimeASC"> preparation time ascending </option>
-                    <option value="prepTimeDESC"> preparation time descending </option>
-                    <option value="ingredientsASC"> By amount of ingredients ascending </option>
-                    <option value="ingredientsDESC"> By amount of ingredients descending </option>
+                <div className="sorting">
+                    sort by:
+                    <select name="sort" onChange={handleSorting} defaultValue={"none"}>
+                        <option value="none"> - </option>
+                        <option value="alphabetASC"> alphabetically ascending </option>
+                        <option value="alphabetDESC"> Alphabetically descending </option>
+                        <option value="dateASC"> By date ascending </option>
+                        <option value="dateDESC"> By date descending </option>
+                        <option value="ingredientsASC"> By amount of ingredients ascending </option>
+                        <option value="ingredientsDESC"> By amount of ingredients descending </option>
+                    </select>
+                </div>
 
-                </select>
-            </div>
-
-            <div className="search">
-                <input type="text" placeholder="Search for an ingredient..." onChange={e => {
-                    setSearchTerm(e.target.value)
-
-                }}/>
+                <div className="time">
+                    preparation time:
+                    <select name="time" onChange={dropdownFilter} defaultValue={"none"}>
+                        <option value="none"> - </option>
+                        <option value="25"> less than 30 minutes </option>
+                        <option value="45"> 30 minutes - 1 hour </option>
+                        <option value="90"> 1 hour - 2 hours </option>
+                        <option value="125"> over 2 hours </option>
+                        <option value="500"> overnight </option>
+                    </select>
+                </div>
+                <div className="search">
+                    <input type="text" placeholder="Search for an ingredient..." onChange={e => {
+                        setSearchTerm(e.target.value)
+                    }}/>
+                </div>
             </div>
 
 
@@ -157,6 +168,10 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
                     <div key={recipe._id}>
                         <Link to={`/recipes/${recipe._id}`}> <h4> {recipe.name} </h4> </Link>
                         <img src={recipe.photo}  alt={`${recipe.name}`}/>
+                        <ul>
+                            tags:
+                            {recipe.tags.map(tag => <li key={tag}> {tag} </li>)}
+                        </ul>
                         <button onClick={ () => handleDelete(recipe._id)}> x </button>
                         <hr />
                     </div>

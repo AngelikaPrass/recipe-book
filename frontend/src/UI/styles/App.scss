@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'PlayfairDisplay';
+  src: url("../fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf") format("truetype");
+}
+$font-main: 'PlayfairDisplay';
+
+//.selector {
+//  font-family: $font-main;
+//}
+* {
+  box-sizing: border-box;
+  font-family: $font-main;
+
+}

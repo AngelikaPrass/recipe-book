@@ -1,4 +1,4 @@
-import './App.css';
+import './UI/styles/App.scss';
 import { Route, Routes } from 'react-router-dom'
 import React from "react";
 import Navbar from "./UI/Navbar";
@@ -11,10 +11,14 @@ import RecipeForm from "./UI/RecipeForm";
 import RecipeDetail from "./UI/RecipeDetail";
 import CuisineSelection from "./UI/CuisineSelection";
 import CuisineForm from "./UI/CuisineForm";
-function App({recipes, getRecipeList}) {
+import {getCuisineList} from "./ducks/cuisines/operations";
+function App({recipes, getRecipeList, cuisines, getCuisineList}) {
+
     useEffect(() => {
         if (recipes.length === 0) getRecipeList();
-    }, [getRecipeList, recipes]);
+        if (cuisines.length === 0) getCuisineList();
+
+    }, [getRecipeList, recipes, getCuisineList, cuisines]);
 
 
     return (
@@ -35,12 +39,14 @@ function App({recipes, getRecipeList}) {
 
 const mapStateToProps = state => {
     return {
-        recipes: state.recipes
+        recipes: state.recipes,
+        cuisines: state.cuisines,
     }
 }
 
 const mapDispatchToProps = {
-    getRecipeList
+    getRecipeList,
+    getCuisineList,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

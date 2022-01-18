@@ -6,81 +6,54 @@ import {Link} from "react-router-dom";
 import {getRecipes} from "../ducks/recipes/selectors";
 import {getRecipeList} from "../ducks/recipes/operations";
 
-//todo
-// filtering with searchbar by ingredients in cuisine
-// e.g. query "halloumi" will output "greek".
-// sorting: by amount of cs, by name, by amount of specific ingredients
-//
 const CuisineSelection = ({cuisines, recipes, getCuisineList}) => {
-    const [data, setData] = useState(cuisines);
-    const [containedRecipes, setContainedRecipes] = useState(recipes);
     const [displayedData, setDisplayedData] = useState(cuisines);
     const [searchTerm, setSearchTerm] = useState("");
     const [filtering, setFiltering] = useState( () => () => true);
     const [sorting, setSorting] = useState(()=>()=>1);
 
-    const cuisinesFromState = useSelector(state => getCuisines(state), shallowEqual)
-    const recipesFromState = useSelector(state => getRecipes(state), shallowEqual)
 
     useEffect(() => {
-        async function fetchCuisines(){
-            return await getCuisineList();
-        }
-        async function fetchRecipes(){
-            return await getRecipeList();
-        }
+        setDisplayedData(cuisines.filter(filtering).sort(sorting))
+    }, [filtering, sorting, cuisines]);
 
-        if(cuisinesFromState.length !== 0 && recipesFromState.length !== 0){
-            setData(cuisinesFromState);
-            setContainedRecipes(recipesFromState);
-        }
-
-        else{
-            fetchCuisines().then(cuisines => setData(cuisines));
-            fetchRecipes().then(recipes => setContainedRecipes(recipes));
-
-        }
-    }, [cuisinesFromState, recipesFromState, getCuisineList, getRecipeList]);
-
-    useEffect(() => {
-        setDisplayedData(data.filter(filtering).sort(sorting))
-    }, [filtering, sorting, data]);
 
     const handleDelete = (id) => {
-        deleteCuisine(id);
-        alert("deleted cuisine");
+        deleteCuisine(id).then(() => {
+            alert("deleted cuisine");
+        });
     }
 
     const handleSorting = e => {
         switch(e.target.value){
             case 'alphabetASC':
                 setSorting(() => (c1, c2) => {
-                    return '' + c1.name.localeCompare(c2.name);
+                    return c1.name.localeCompare(c2.name);
                 })
                 break;
             case 'alphabetDESC':
                 setSorting(() => (c1, c2) => {
-                    return '' + c2.name.localeCompare(c1.name);
+                    return c2.name.localeCompare(c1.name);
                 })
                 break;
             case 'ingredientsASC':
                 setSorting(() => (c1, c2) => {
-                    return '' + c1.ingredients.length > c2.ingredients.length;
+                    return c1.ingredients.length - c2.ingredients.length;
                 })
                 break;
             case 'ingredientsDESC':
                 setSorting(() => (c1, c2) => {
-                    return '' + c1.ingredients.length < c2.ingredients.length;
+                    return c2.ingredients.length - c1.ingredients.length;
                 })
                 break;
             case 'recipesASC':
                 setSorting(() => (c1, c2) => {
-                    return '' + recipesInCuisine(c1).length > recipesInCuisine(c2).length
+                    return recipesInCuisine(c1).length - recipesInCuisine(c2).length;
                 })
                 break;
             case 'recipesDESC':
                 setSorting(() => (c1, c2) => {
-                    return '' + recipesInCuisine(c1).length < recipesInCuisine(c2).length
+                    return recipesInCuisine(c2).length - recipesInCuisine(c1).length;
                 })
                 break;
             default:
@@ -98,8 +71,10 @@ const CuisineSelection = ({cuisines, recipes, getCuisineList}) => {
         setFiltering(()=>searching(searchTerm))
     }, [searchTerm])
 
+
+
     const recipesInCuisine = (cuisine) => {
-        return containedRecipes.filter(recipe => recipe.cuisineId === cuisine._id)
+        return recipes.filter(recipe => recipe.cuisineId === cuisine._id)
     }
 
     return(
@@ -110,7 +85,6 @@ const CuisineSelection = ({cuisines, recipes, getCuisineList}) => {
 
             }}/>
         </div>
-
 
         <div>
             <select name="sort" onChange={handleSorting} defaultValue={"none"}>
@@ -134,12 +108,12 @@ const CuisineSelection = ({cuisines, recipes, getCuisineList}) => {
                         <div>{cuisine.description}</div>
                         <ul> ingredients:
                             {cuisine.ingredients.map(ingredient =>
-                           <li key={ingredient}> {ingredient} </li>
+                           <li key={ingredient}> {ingredient} </li> 
                         )}</ul>
                         <ul> recipes:
                             {recipesInCuisine(cuisine).map(recipe =>
-                                <Link to={`/recipes/${recipe._id}`}>
-                                    <li key={recipe._id}> {recipe.name}</li>
+                                <Link to={`/recipes/${recipe._id}`} key={recipe._id}>
+                                    <li> {recipe.name}</li>
                                 </Link>
                             )}
                         </ul>
@@ -157,12 +131,13 @@ const CuisineSelection = ({cuisines, recipes, getCuisineList}) => {
 
 const mapStateToProps = (state) => {
     return {
-        cuisines: getCuisines(state)
+        cuisines: getCuisines(state),
+        recipes: getRecipes(state),
     };
 }
 
 const mapDispatchToProps  = {
-    getCuisineList, deleteCuisine
+    getCuisineList, deleteCuisine, getRecipeList
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CuisineSelection);

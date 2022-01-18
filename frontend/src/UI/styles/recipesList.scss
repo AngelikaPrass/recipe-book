@@ -1,0 +1,37 @@
+.tools {
+  font-style: MediumItalic;
+  position: relative;
+  top: 0;
+  background-color: #F1E7D5;
+  margin: 0 auto;
+  width: 60%;
+  height: 2rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+
+  .vegan{
+    ul{
+      display: flex;
+      list-style-type: none;
+      li {
+        margin: 0 0.5em;
+      }
+    }
+  }
+  .search {
+    order: -1;
+    input {
+      border-radius: 30px;
+      border: none;
+      margin: 1em 0.2em;
+      padding: 0.2em;
+      background-color: #CBC4B8;
+      outline: none;
+    }
+  }
+}
+
