@@ -4,7 +4,7 @@ import App from "./App";
 import React from "react";
 import store from './ducks/store.js';
 import { BrowserRouter } from 'react-router-dom';
-
+import './UI/styles/App.scss';
 
 ReactDOM.render(
 

@@ -1,15 +1,20 @@
 import {Link, useParams} from 'react-router-dom';
-import {connect, useSelector } from "react-redux";
+import {connect, shallowEqual, useSelector} from "react-redux";
 import {selectRecipe} from "../ducks/recipes/selectors";
 import {deleteRecipe, editRecipe } from "../ducks/recipes/operations";
 import { useNavigate } from 'react-router-dom';
+import {useEffect, useState} from "react";
 
- const RecipeDetail = ({deleteRecipe}) => {
-     
+ const RecipeDetail = ({recipe, deleteRecipe}) => {
+     const [details, setDetails] = useState(null);
      const navigate = useNavigate();
      const {id} = useParams();
-     const recipe = useSelector(state => selectRecipe(state, id));
-
+     const recipeFromState = useSelector(state => selectRecipe(state, id), shallowEqual);
+     useEffect(() => { (async () => {
+         if(recipeFromState){
+             setDetails(recipeFromState)
+         }
+     })()}, [recipeFromState, recipe])
 
      const handleDelete = () => {
          deleteRecipe(recipe.id);
@@ -48,20 +53,25 @@ import { useNavigate } from 'react-router-dom';
 
      return(
          <div>
-             {recipe && <><h3> {recipe.name} </h3>
-             <img src={recipe.photo}  alt={`${recipe.name}`}/>
-                 <div> {recipe.tags} </div>
-                 <div> preparation time: {displayTime(recipe.preparationTime)} </div>
-                 <div> cookingTime: {displayTime(recipe.cookingTime)} </div>
+             {details && <><h3> {details.name} </h3>
+             <img className="img-fluid w-75" src={details.photo}  alt={`${details.name}`}/>
+                 <div> {details.tags} </div>
+                 <div> preparation time: {displayTime(details.preparationTime)} </div>
+                 <div> cooking time: {displayTime(details.cookingTime)} </div>
 
-                 {<div> {displayDiet(recipe)} </div>}
+                 {<div> {displayDiet(details)} </div>}
+
                  <ul>
                      Ingredients:
-                     {recipe.ingredients.map(ingredient => <li key={ingredient}> {ingredient} </li>)}
+                     {details.ingredients.map(ingredient => <li key={ingredient}> {ingredient} </li>)}
                  </ul>
-             <p> {recipe.recipe} </p>
-                 <button onClick={ () => handleDelete(recipe._id)}> x </button>
-                 <Link to={`/form/${recipe._id}`}> <button> edit </button></Link>
+
+                 <p> {(details.recipe).replace(/ (?=[0-9]+\.)/g, "\n").split("\n").map(e =>
+                     (
+                     <div> {e} </div>
+                     ))} </p>
+                 <button className="btn btn-danger" onClick={ () => handleDelete(details._id)}> x </button>
+                 <Link to={`/form/${details._id}`}> <button className="btn btn-primary"> edit </button></Link>
              </>
              }
          </div>

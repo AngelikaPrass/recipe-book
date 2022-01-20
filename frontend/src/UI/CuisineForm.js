@@ -40,41 +40,37 @@ const CuisineForm = () => {
                 enableReinitialize={true}>
                 {({ values, errors, touched}) => (
                 <Form>
-                    <label htmlFor="name"> Name </label>
-                    <Field id="name" name="name" placeholder="Italian" />
-                    <ErrorMessage name="name" />
-
-                    <label htmlFor="description"> Description </label>
-                    <Field id="description" name="description" placeholder="Enter description here..." />
-                    <ErrorMessage name="description" />
-
-                    <label htmlFor="photo"> Photo: </label>
-                    <Field name="photo" placeholder="Paste a link to picture..."/>
-                    <ErrorMessage name="photo" />
+                    <div className="form-group">
+                        <label htmlFor="name"> Name </label>
+                        <Field id="name" name="name" className="form-control" placeholder="Italian" />
+                        <ErrorMessage name="name" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="description"> Description </label>
+                            <Field id="description"  className="form-control" name="description" placeholder="Enter description here..." />
+                            <ErrorMessage name="description" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="photo"> Photo: </label>
+                            <Field name="photo" className="form-control" placeholder="Paste a link to picture..."/>
+                            <ErrorMessage name="photo" />
+                        </div>
 
                     <FieldArray name="ingredients">
                         {({remove, push }) => (
                             <div>
                                 {values.ingredients.length > 0 &&
                                     values.ingredients.map((ingredient, index) => (
-                                        <div className="row" key={index}>
-                                            <div className="col">
-                                                <label htmlFor={`ingredients.${index}`}> Ingredient </label>
-                                                <Field
-                                                    name={`ingredients.${index}`}
-                                                    placeholder="Zucchini"
-                                                    type="text"
-                                                />
-                                                <ErrorMessage
-                                                    name={`ingredients.${index}`}
-                                                    component="div"
-                                                    className="field-error"
-                                                />
+                                        <div className="form-group row">
+                                            <label className="col-sm-2 col-form-label"> Ingredient </label>
+                                            <div className="col-sm-2">
+                                                <Field name={`ingredients.${index}`} type="text" placeholder="Lunch" className="form-control" />
+                                                <ErrorMessage name={`ingredients.${index}`} component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="col">
+                                            <div className="col-sm-2">
                                                 <button
                                                     type="button"
-                                                    className="secondary"
+                                                    className="btn btn-danger"
                                                     onClick={()=>remove(index)}
                                                 >
                                                     X
@@ -82,18 +78,19 @@ const CuisineForm = () => {
                                             </div>
                                         </div>
                                     ))}
-                                <button
-                                    type="button"
-                                    className="secondary"
-                                    onClick={() => push( '')}
-                                >
-                                    Add Ingredient
-                                </button>
+                                <div className="form-group col-6">
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary"
+                                        onClick={() => push('')}
+                                    >
+                                        Add ingredient
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </FieldArray>
-
-                    <button type="submit">Submit</button>
+                        <button type="submit" className="btn btn-primary">Submit</button>
                 </Form>
                 )}
             </Formik>

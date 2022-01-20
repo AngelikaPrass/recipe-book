@@ -1,41 +1,27 @@
-import './styles/App.scss';
-import './styles/recipesList.scss';
 import React, {useEffect, useState} from 'react';
 import {Outlet} from 'react-router';
 import {connect, shallowEqual, useSelector} from 'react-redux';
 import {getRecipes} from "../ducks/recipes/selectors";
 import {deleteRecipe, getRecipeList} from "../ducks/recipes/operations";
 import {Link} from "react-router-dom";
+import {Card} from "react-bootstrap";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from "react-bootstrap/Container";
+import Button from 'react-bootstrap/Button'
 
-//todo:
-// add a dropdown filter option to filter by cuisines and occasions [tags]
-//
 
 const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [data, setData] = useState(recipes);
     const [sorting, setSorting] = useState(()=>()=>1);
     const [filtering, setFiltering] = useState( () => () => true);
     const [filtering2, setFiltering2] = useState( () => () => true);
     const [filtering3, setFiltering3] = useState( () => () => true);
     const [displayedData, setDisplayedData] = useState(recipes);
-    const recipesFromState = useSelector(state => getRecipes(state), shallowEqual)
 
     useEffect(() => {
-       async function fetchData(){
-           return await getRecipeList();
-       }
-        if(recipesFromState.length !== 0){
-            setData(recipesFromState);
-        }
-        else{
-            fetchData().then(recipes => setData(recipes));
-        }
-    }, [recipesFromState, getRecipeList]);
-
-    useEffect(() => {
-        setDisplayedData(data.filter(e => filtering(e) && filtering2(e) && filtering3(e)).sort(sorting))
-    }, [filtering, filtering2, filtering3, sorting, data]);
+        setDisplayedData(recipes.filter(e => filtering(e) && filtering2(e) && filtering3(e)).sort(sorting))
+    }, [filtering, filtering2, filtering3, sorting, recipes]);
 
     const handleFiltering = (e) => {
         if(e.target.value !== ''){
@@ -111,9 +97,18 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
         setFiltering2(()=>searching(searchTerm))
     }, [searchTerm])
 
+    const displayVegan = recipe => {
+        if(recipe.isVegetarian && !recipe.isVegan){
+            return "vegetarian";
+        }
+        else if(recipe.isVegan){
+            return "vegan";
+        }
+    }
+
     return(
         <div>
-            <div className="tools">
+            <div className="d-flex p-2">
                 <form className="vegan">
                     <ul>
                         <li>
@@ -162,23 +157,36 @@ const RecipesList = ( {recipes, getRecipeList, deleteRecipe }) => {
                 </div>
             </div>
 
-
+            <Container>
+            <Row xs={1} md={4} className="g-4">
     {displayedData.map(recipe => {
                 return (
-                    <div key={recipe._id}>
-                        <Link to={`/recipes/${recipe._id}`}> <h4> {recipe.name} </h4> </Link>
-                        <img src={recipe.photo}  alt={`${recipe.name}`}/>
-                        <ul>
-                            tags:
-                            {recipe.tags.map(tag => <li key={tag}> {tag} </li>)}
-                        </ul>
-                        <button onClick={ () => handleDelete(recipe._id)}> x </button>
-                        <hr />
-                    </div>
+                    <Col key={recipe._id}>
+                    <Card className="h-100">
+                        <Card.Img variant="top" src={recipe.photo} className="h-50"/>
+                        <Card.Body>
+                            <Card.Title> <a href={`/recipes/${recipe._id}`} class="text-muted"> {recipe.name} </a> </Card.Title>
+                            <Card.Subtitle>
+                                {displayVegan(recipe)}
+                            </Card.Subtitle>
+                            <Card.Text>
+                                <ul>
+                                    tags:
+                                    {recipe.tags.map(tag => <li key={tag}> {tag} </li>)}
+                                </ul>
+                            </Card.Text>
+                            <Card.Footer><Button variant="primary" onClick={ () => handleDelete(recipe._id)}> x </Button>{' '}</Card.Footer>
+                        </Card.Body>
+                    </Card>
+                    </Col>
+
                 )}
             )}
-            <Link to={'/form'}> <button> Add new recipe </button></Link>
-            <Outlet />
+            <Link to={'/form'}> <Button variant="primary"> Add new recipe </Button></Link>
+            </Row>
+            </Container>
+
+                <Outlet />
         </div>
     )
 };

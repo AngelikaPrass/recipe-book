@@ -39,8 +39,10 @@ router.post('/', function (req, res){
 //modifying a recipe
 router.put('/:id', function(req, res){
   const id = req.params.id;
-  Recipe.findByIdAndUpdate(id, req.body).then(recipe => {
+  console.log(id)
+  Recipe.findByIdAndUpdate(id, req.body, {new : true}).then(recipe => {
     res.send(recipe)
+    console.log(recipe);
   }).catch(error => {
     console.error(error);
     res.status(500).end("internal server error");

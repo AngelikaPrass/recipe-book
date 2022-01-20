@@ -49,77 +49,78 @@ const RecipeForm = ({ addNewRecipe, editRecipe }) => {
         } = recipeFromState || {};
 
     const handleSubmit = (values) => {
-        console.log(values)
-        if(recipeFromState) {
-            editRecipe(values, id);
-        }
-        else {
-            addNewRecipe(values);
-        }
-        navigate(-1);
+        (async(values) => {
+            if(recipeFromState) {
+                await editRecipe(values, id);
+                navigate(`/recipes/${id}`);
+            }
+            else {
+                await addNewRecipe(values);
+                navigate(`/recipes`)
+            }
+        })(values)
     };
 
     return(
-        <div>
-            <h3> Add a recipe: </h3>
-            <Formik initialValues={{
-                name,
-                tags,
-                ingredients,
-                recipe,
-                photo,
-                isVegan,
-                isVegetarian,
-                preparationTime,
-                cookingTime,
-            }}
-                    validationSchema={RecipeSchema}
-                    onSubmit={(values) => {
-                        handleSubmit(values)
-                    }}
-                    enableReinitialize={true}>
-                {({ values, errors, touched}) => (
-                <Form>
-                    <label htmlFor="name"> Name </label>
-                    <Field id="name" name="name" placeholder="Spaghetti"/>
-                    <ErrorMessage name="name" />
+    <div>
+        <Formik initialValues={{
+            name,
+            tags,
+            ingredients,
+            recipe,
+            photo,
+            isVegan,
+            isVegetarian,
+            preparationTime,
+            cookingTime,
+        }}
+                validationSchema={RecipeSchema}
+                onSubmit={(values) => {
+                    handleSubmit(values)
+                }}
+                enableReinitialize={true}>
+            {({ values, errors, touched}) => (
+                <div className="container">
+                    <Form>
+                    <div className="form-group row">
+                        <label htmlFor="name" className="col-sm-2 col-form-label"> Name: </label>
+                        <div className="col-sm-8">
+                            <Field id="name" name="name" placeholder="Spaghetti" className="form-control"/>
+                            <ErrorMessage name="name" />
+                        </div>
+                    </div>
+
                     <FieldArray name="tags">
                         {({remove, push }) => (
                             <div>
                                 {values.tags.length > 0 &&
-                                values.tags.map((tag, index) => (
-                                    <div className="row" key={index}>
-                                    <div className="col">
-                                        <label htmlFor={`tags.${index}`}> Tag </label>
-                                        <Field
-                                            name={`tags.${index}`}
-                                            placeholder="Lunch"
-                                            type="text"
-                                            />
-                                        <ErrorMessage
-                                            name={`tags.${index}`}
-                                            component="div"
-                                            className="field-error"
-                                            />
-                                    </div>
-                                        <div className="col">
-                                            <button
-                                                type="button"
-                                                className="secondary"
-                                                onClick={()=>remove(index)}
+                                    values.tags.map((tag, index) => (
+                                        <div className="form-group row">
+                                                <label className="col-sm-2 col-form-label"> Tag </label>
+                                                <div className="col-sm-2">
+                                                    <Field name={`tags.${index}`} type="text" placeholder="Lunch" className="form-control" />
+                                                    <ErrorMessage name={`tags.${index}`} component="div" className="invalid-feedback" />
+                                                </div>
+                                                <div className="col-sm-2">
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger"
+                                                    onClick={()=>remove(index)}
                                                 >
-                                                X
-                                            </button>
+                                                    X
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
                                     ))}
-                                <button
-                                    type="button"
-                                    className="secondary"
-                                    onClick={() => push('')}
-                                >
-                                    Add Tag
-                                </button>
+                      <div className="form-group col-6">
+                          <button
+                              type="button"
+                              className="btn btn-primary"
+                              onClick={() => push('')}
+                          >
+                              Add Tag
+                          </button>
+                      </div>
                             </div>
                         )}
                     </FieldArray>
@@ -129,24 +130,16 @@ const RecipeForm = ({ addNewRecipe, editRecipe }) => {
                             <div>
                                 {values.ingredients.length > 0 &&
                                     values.ingredients.map((ingredient, index) => (
-                                        <div className="row" key={index}>
-                                            <div className="col">
-                                                <label htmlFor={`ingredients.${index}`}> Ingredient </label>
-                                                <Field
-                                                    name={`ingredients.${index}`}
-                                                    placeholder="Zucchini"
-                                                    type="text"
-                                                />
-                                                <ErrorMessage
-                                                    name={`ingredients.${index}`}
-                                                    component="div"
-                                                    className="field-error"
-                                                />
+                                        <div className="form-group row">
+                                            <label className="col-sm-2 col-form-label"> Ingredient </label>
+                                            <div className="col-sm-2">
+                                                <Field name={`ingredients.${index}`} type="text" placeholder="Lunch" className="form-control" />
+                                                <ErrorMessage name={`ingredients.${index}`} component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="col">
+                                            <div className="col-sm-2">
                                                 <button
                                                     type="button"
-                                                    className="secondary"
+                                                    className="btn btn-danger"
                                                     onClick={()=>remove(index)}
                                                 >
                                                     X
@@ -154,45 +147,57 @@ const RecipeForm = ({ addNewRecipe, editRecipe }) => {
                                             </div>
                                         </div>
                                     ))}
-                                <button
-                                    type="button"
-                                    className="secondary"
-                                    onClick={() => push( '')}
-                                >
-                                    Add Ingredient
-                                </button>
+                                <div className="form-group col-6">
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary"
+                                        onClick={() => push('')}
+                                    >
+                                        Add ingredient
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </FieldArray>
 
+                    <div className="form-group">
                     <label htmlFor="recipe"> Recipe: </label>
-                    <Field name="recipe" as="textarea" rows="10" cols="30" placeholder="Enter recipe here..."/>
+                    <Field className="form-control" name="recipe" as="textarea" rows="3" cols="1" placeholder="Enter recipe here..."/>
                     <ErrorMessage name="recipe" />
+                    </div>
 
-                    <label htmlFor="photo"> Photo: </label>
-                    <Field name="photo" placeholder="Paste a link to picture..."/>
-                    <ErrorMessage name="photo" />
+                    <div className="form-group row">
+                        <label htmlFor="photo" className="col-sm-2 col-form-label"> Photo: </label>
+                        <div className="col-sm-8">
+                            <Field name="photo" placeholder="Paste a link to picture..." className="form-control"/>
+                            <ErrorMessage name="photo" />
+                        </div>
+                    </div>
+
 
                     <label htmlFor="isVegan"> vegan: </label>
-                    <Field type="checkbox" name="toggleVegan" />
+                    <Field type="checkbox" name="isVegan" />
 
                     <label htmlFor="isVegetarian"> vegetarian: </label>
-                    <Field type="checkbox" name="toggleVegetarian" />
+                    <Field type="checkbox" name="isVegetarian" />
 
-                    <label htmlFor="preparationTime"> Preparation time: </label>
-                    <Field as="select" name="preparationTime">
-                        <option value=""> </option>
-                        <option value="20"> 10 - 30 minutes</option>
-                        <option value="25"> less than 30 minutes </option>
-                        <option value="45"> 30 minutes - 1 hour </option>
-                        <option value="90"> 1 - 2 hours </option>
-                        <option value="125"> over 2 hours </option>
-                        <option value="500"> overnight </option>
-                    </Field>
-                    <ErrorMessage name="preparationTime" />
+                    <div className="form-group">
+                        <label htmlFor="preparationTime"> Preparation time: </label>
+                        <Field as="select" name="preparationTime" className="form-select">
+                            <option value=""> </option>
+                            <option value="20"> 10 - 30 minutes</option>
+                            <option value="25"> less than 30 minutes </option>
+                            <option value="45"> 30 minutes - 1 hour </option>
+                            <option value="90"> 1 - 2 hours </option>
+                            <option value="125"> over 2 hours </option>
+                            <option value="500"> overnight </option>
+                        </Field>
+                        <ErrorMessage name="preparationTime" />
+                    </div>
 
+                    <div className="form-group">
                     <label htmlFor="cookingTime"> Cooking time: </label>
-                    <Field as="select" name="cookingTime">
+                    <Field as="select" name="cookingTime" className="form-select">
                         <option value=""> </option>
                         <option value="20"> 10 - 30 minutes</option>
                         <option value="25"> less than 30 minutes </option>
@@ -202,15 +207,17 @@ const RecipeForm = ({ addNewRecipe, editRecipe }) => {
                         <option value="500"> overnight </option>
                     </Field>
                     <ErrorMessage name="cookingTime" />
+                    </div>
 
-                    <button type="submit" >
+                    <button type="submit" className="btn btn-primary">
                         Add
                     </button>
                 </Form>
-                )}
-            </Formik>
+                </div>
+            )}
+        </Formik>
 
-        </div>
+    </div>
     )
 };
 const mapStateToProps = (state) => {
@@ -223,3 +230,9 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeForm);
+
+// <label htmlFor="isVegan"> vegan: </label>
+// <Field type="checkbox" name="isVegan"/>
+//
+// <label htmlFor="isVegetarian"> vegetarian: </label>
+// <Field type="checkbox" name="isVegetarian"/>

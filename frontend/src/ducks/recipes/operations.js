@@ -24,9 +24,10 @@ export const addNewRecipe = (recipe) => {
 
 export const editRecipe = (recipe, recipeId) => {
     return async dispatch => {
+        console.log(recipeId)
         const response = await axios.put(`http://localhost:5000/recipes/${recipeId}`, recipe);
         if(response.status === 200){
-            dispatch(actions.editRecipeAction(recipe));
+            dispatch(actions.editRecipeAction(response.data));
         }
         else {
             console.log("bad request");

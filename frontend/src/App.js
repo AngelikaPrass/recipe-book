@@ -1,7 +1,7 @@
 import './UI/styles/App.scss';
 import { Route, Routes } from 'react-router-dom'
 import React from "react";
-import Navbar from "./UI/Navbar";
+import Navigation from "./UI/Navigation";
 import { useEffect } from 'react';
 import {getRecipeList} from "./ducks/recipes/operations";
 import {connect} from "react-redux";
@@ -23,7 +23,7 @@ function App({recipes, getRecipeList, cuisines, getCuisineList}) {
 
     return (
         <div className="App">
-            <Navbar />
+            <Navigation />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="recipes" element={ <RecipesList /> }> </Route>
